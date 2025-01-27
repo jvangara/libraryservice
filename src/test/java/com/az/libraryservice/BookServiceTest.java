@@ -82,4 +82,16 @@ public class BookServiceTest {
         assertEquals(books, result);
     }
 
+    @Test
+    void testSaveBook() {
+        Book book = Book.builder().id("123").title("Book1")
+                .author("Author1").isbn("12345").build();
+
+        when(bookRepository.save(book)).thenReturn(book);
+        Book savedBook = bookService.saveBook(book);
+
+        verify(bookRepository).save(book);
+        assertEquals(book, savedBook);
+    }
+
 }
