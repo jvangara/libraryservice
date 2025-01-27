@@ -5,10 +5,12 @@
 
 ### Build and Run
 
-1. Clone the repository:
+1. Clone the repository and build the project:
    ```sh
    git clone https://github.com/jvangara/libraryservice.git
    cd libraryservice
+   
+   RUN ->  mvn clean install 
    
 2. Create Docker image
     ```
@@ -19,9 +21,9 @@
    docker run -p 8080:8080 app
 
 4. Access the API at http://localhost:8080/api/books
+   Use the credentials, user/pwd
 
-
-5. API allows the following end point 
+5. API provides the following endpoints 
     ```sh
     GET /api/books
     GET /api/books/{id}
