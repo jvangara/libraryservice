@@ -5,10 +5,10 @@
 
 ### Build and Run
 
-1. Clone the repository and build the project:
+1. Clone the repository to a directory C:\app and build the project:
    ```sh
    git clone https://github.com/jvangara/libraryservice.git
-   cd libraryservice
+   cd app
    
    RUN ->  mvn clean install 
    
@@ -18,7 +18,7 @@
    
 3. Run the Docker container
     ```
-   docker run -p 8080:8080 app
+   docker run -d -p 8080:8080 app
 
 4. Access the API at http://localhost:8080/api/books
    Use the credentials, user/pwd
