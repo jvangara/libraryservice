@@ -132,4 +132,16 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$.isbn").value("12345"));
     }
 
+    @Test
+    void testUpdateBookFailure() throws Exception {
+        Book book = Book.builder().id("123").title("Book1")
+                .author("Author1").isbn("12345").build();
+
+        mockMvc.perform(put("/api/books/321")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("Book Id in the path and body must match."));
+    }
+
 }
