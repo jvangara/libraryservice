@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,8 +19,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -96,6 +96,40 @@ public class BookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    void testCreateBook() throws Exception {
+        Book book = Book.builder().id("123").title("Book1")
+                .author("Author1").isbn("12345").build();
+
+        when(bookService.saveBook(book)).thenReturn(book);
+
+        mockMvc.perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value("123"))
+                .andExpect(jsonPath("$.title").value("Book1"))
+                .andExpect(jsonPath("$.author").value("Author1"))
+                .andExpect(jsonPath("$.isbn").value("12345"));
+    }
+
+    @Test
+    void testUpdateBook() throws Exception {
+        Book book = Book.builder().id("123").title("Book1")
+                .author("Author1").isbn("12345").build();
+
+        when(bookService.saveBook(book)).thenReturn(book);
+
+        mockMvc.perform(put("/api/books/123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("123"))
+                .andExpect(jsonPath("$.title").value("Book1"))
+                .andExpect(jsonPath("$.author").value("Author1"))
+                .andExpect(jsonPath("$.isbn").value("12345"));
     }
 
 }
